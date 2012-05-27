@@ -39,15 +39,22 @@ $ () ->
 
   t = (s) ->
     c_display.html s
-  c_logs_raw = new Array()
   l = () ->
-    c_logs_raw.push timer.counter
-    c_logs.prepend $("<li>#{timer.display()}</li>")
+    c_logs.prepend $("<li data=\"#{timer.counter}\">#{timer.display()}</li>")
     sum = 0
-    for n in c_logs_raw
-      sum += n
-    avg = sum / c_logs_raw.length
-    c_avg.html timer.display Math.round avg
+    logs = c_logs.children()
+    if logs.length > 0
+      for n in logs
+        sum += ($(n).attr('data') * 1)
+      avg = sum / logs.length
+      console.log {
+        logs: logs
+        ll: logs.length
+        sum: sum
+        avg: avg
+        td: timer.display avg
+      }
+      c_avg.html timer.display avg
   c_update = () ->
     t timer.display()
 
@@ -65,7 +72,6 @@ $ () ->
     c_toggle.attr "value", "Start"
     c_update()
   c_log_clear = $('<input type="button" value="Clear Logs" id="countup-log-clear" />').appendTo(c).click (e) ->
-    c_logs_raw = new Array()
     c_avg.html ""
     c_logs.html ""
   c_avg = $('<div id="countup-average">').appendTo c
