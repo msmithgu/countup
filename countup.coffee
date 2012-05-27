@@ -1,6 +1,10 @@
 t = (s) ->
   document.body.textContent = s
 
+# format milliseconds
+fms = (ms) ->
+  (ms/10).toFixed(1)
+
 delay = (ms, f) ->
   setTimeout f, ms
 
@@ -19,7 +23,7 @@ main = () ->
   counter = 0
   t counter
   cycle = () ->
-    t ((counter++)/10).toFixed(1)
+    t fms counter++
     delay 100, cycle
   cycle()
 
