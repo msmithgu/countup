@@ -14,26 +14,13 @@ ft = (cs) ->
   seconds = ((cs - (minutes*600))/10).toFixed(1)
   "#{fzero hours}:#{fzero minutes}:#{fzero seconds}"
 
-delay = (ms, f) ->
-  setTimeout f, ms
-
-makedelay = (ms) ->
-  (f) ->
-    delay ms, f
-
-startcycle = (ms, f) ->
-  cycledelay = makedelay ms
-  cyclef = (f) ->
-    f()
-    cycledelay f
-  cyclef(f)
+cycle = (interval, f) ->
+  setInterval f, interval
 
 main = () ->
   counter = 0
   t counter
-  cycle = () ->
+  tid = cycle 100, () ->
     t ft counter++
-    delay 100, cycle
-  cycle()
 
 main()
