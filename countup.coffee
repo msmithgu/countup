@@ -6,9 +6,16 @@ $ () ->
 
   class Timer
     constructor: () ->
+      @timer = this
       @counter = 0
       @running = false
       @tid = null
+    toggle: (f) =>
+      if @running
+        @timer.stop()
+      else
+        @timer.start(f)
+      @running
     start: (f) =>
       if not @running
         @tid = setInterval (() =>
@@ -46,16 +53,20 @@ $ () ->
 
   c = $('<div id="countup">').appendTo 'body'
   c_display = $('<div id="countup-display">').appendTo c
-  c_start = $('<input type="button" value="Start" id="countup-start" />').appendTo(c).click (e) ->
-    timer.start () ->
-      t timer.display()
-  c_stop = $('<input type="button" value="Stop" id="countup-stop" />').appendTo(c).click (e) ->
-    timer.stop()
-  c_reset = $('<input type="button" value="Reset" id="countup-reset" />').appendTo(c).click (e) ->
+  c_toggler = () ->
+    if (timer.toggle () -> t timer.display())
+      c_toggle.attr "value", "Stop"
+    else
+      c_toggle.attr "value", "Start"
+  c_toggle = $('<input type="button" value="Start" id="countup-start" />').appendTo(c).click c_toggler
+  c_reset = $('<input type="button" value="Reset/Log" id="countup-reset" />').appendTo(c).click (e) ->
     l()
     timer.reset()
+    c_toggle.attr "value", "Start"
     c_update()
   c_log_clear = $('<input type="button" value="Clear Logs" id="countup-log-clear" />').appendTo(c).click (e) ->
+    c_logs_raw = new Array()
+    c_avg.html ""
     c_logs.html ""
   c_avg = $('<div id="countup-average">').appendTo c
   c_logs = $('<ul id="countup-logs">').appendTo c
