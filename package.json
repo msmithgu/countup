@@ -1,0 +1,8 @@
+{
+  "name": "countup",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "stylus": ">= 0.0.1"
+  }
+}
