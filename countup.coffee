@@ -1,4 +1,9 @@
 $ () ->
+  fzero = (n) ->
+    if n < 10
+      n = "0" + n
+    n
+
   class Timer
     constructor: () ->
       @counter = 0
@@ -18,20 +23,24 @@ $ () ->
       clearInterval @tid
       @running = false
       @counter = 0
-    display: () ->
-      fzero = (n) ->
-        if n < 10
-          n = "0" + n
-        n
-      hours   = Math.floor(@counter/36000)
-      minutes = Math.floor((@counter - (hours*36000))/600)
-      seconds = ((@counter - (hours*36000) - (minutes*600))/10).toFixed(1)
+    display: (n) ->
+      n ?= @counter
+      hours   = Math.floor(n/36000)
+      minutes = Math.floor((n - (hours*36000))/600)
+      seconds = ((n - (hours*36000) - (minutes*600))/10).toFixed(1)
       "#{fzero hours}:#{fzero minutes}:#{fzero seconds}"
 
   t = (s) ->
     c_display.html s
+  c_logs_raw = new Array()
   l = () ->
+    c_logs_raw.push timer.counter
     c_logs.prepend $("<li>#{timer.display()}</li>")
+    sum = 0
+    for n in c_logs_raw
+      sum += n
+    avg = sum / c_logs_raw.length
+    c_avg.html timer.display Math.round avg
   c_update = () ->
     t timer.display()
 
@@ -49,6 +58,7 @@ $ () ->
     c_update()
   c_log_clear = $('<input type="button" value="Clear Logs" id="countup-log-clear" />').appendTo(c).click (e) ->
     c_logs.html ""
+  c_avg = $('<div id="countup-average">').appendTo c
   c_logs = $('<ul id="countup-logs">').appendTo c
 
   timer = new Timer
