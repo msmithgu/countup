@@ -49,13 +49,6 @@ $ () ->
         for n in logs
           sum += ($(n).attr('data') * 1)
         avg = sum / logs.length
-        console.log {
-          logs: logs
-          ll: logs.length
-          sum: sum
-          avg: avg
-          td: timer.display avg
-        }
         c_avg.html timer.display avg
   c_update = () ->
     t timer.display()
