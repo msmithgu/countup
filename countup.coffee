@@ -47,6 +47,8 @@ $ () ->
   c_reset = $('<input type="button" value="Reset" id="countup-reset" />').appendTo(c).click (e) ->
     timer.reset()
     c_update()
+  c_log_clear = $('<input type="button" value="Clear Logs" id="countup-log-clear" />').appendTo(c).click (e) ->
+    c_logs.html ""
   c_logs = $('<ul id="countup-logs">').appendTo c
 
   timer = new Timer
