@@ -40,21 +40,23 @@ $ () ->
   t = (s) ->
     c_display.html s
   l = () ->
-    c_logs.prepend $("<li data=\"#{timer.counter}\">#{timer.display()}</li>")
-    sum = 0
-    logs = c_logs.children()
-    if logs.length > 0
-      for n in logs
-        sum += ($(n).attr('data') * 1)
-      avg = sum / logs.length
-      console.log {
-        logs: logs
-        ll: logs.length
-        sum: sum
-        avg: avg
-        td: timer.display avg
-      }
-      c_avg.html timer.display avg
+    c = timer.counter
+    if c > 0
+      c_logs.prepend $("<li data=\"#{c}\">#{timer.display()}</li>")
+      sum = 0
+      logs = c_logs.children()
+      if logs.length > 0
+        for n in logs
+          sum += ($(n).attr('data') * 1)
+        avg = sum / logs.length
+        console.log {
+          logs: logs
+          ll: logs.length
+          sum: sum
+          avg: avg
+          td: timer.display avg
+        }
+        c_avg.html timer.display avg
   c_update = () ->
     t timer.display()
 
