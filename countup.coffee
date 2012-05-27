@@ -30,19 +30,24 @@ $ () ->
 
   t = (s) ->
     c_display.html s
+  l = () ->
+    c_logs.prepend $("<li>#{timer.display()}</li>")
   c_update = () ->
     t timer.display()
 
-  c = $('<div>').appendTo 'body'
-  c_display = $('<div>').appendTo c
-  c_start = $('<input type="button" value="Start" />').appendTo(c).click (e) ->
+  c = $('<div id="countup">').appendTo 'body'
+  c_display = $('<div id="countup-display">').appendTo c
+  c_start = $('<input type="button" value="Start" id="countup-start" />').appendTo(c).click (e) ->
     timer.start () ->
       t timer.display()
-  c_stop = $('<input type="button" value="Stop" />').appendTo(c).click (e) ->
+  c_stop = $('<input type="button" value="Stop" id="countup-stop" />').appendTo(c).click (e) ->
     timer.stop()
-  c_reset = $('<input type="button" value="Reset" />').appendTo(c).click (e) ->
+  c_log = $('<input type="button" value="Log" id="countup-log" />').appendTo(c).click (e) ->
+    l()
+  c_reset = $('<input type="button" value="Reset" id="countup-reset" />').appendTo(c).click (e) ->
     timer.reset()
     c_update()
+  c_logs = $('<ul id="countup-logs">').appendTo c
 
   timer = new Timer
   c_update()
