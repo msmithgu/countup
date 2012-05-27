@@ -9,9 +9,10 @@ fzero = (n) ->
 # format time
 ft = (cs) ->
   # (cs/10).toFixed(1)
-  minutes = Math.floor(cs/600)
+  hours   = Math.floor(cs/36000)
+  minutes = Math.floor((cs - (hours*36000))/600)
   seconds = ((cs - (minutes*600))/10).toFixed(1)
-  "#{fzero minutes}:#{fzero seconds}"
+  "#{fzero hours}:#{fzero minutes}:#{fzero seconds}"
 
 delay = (ms, f) ->
   setTimeout f, ms
