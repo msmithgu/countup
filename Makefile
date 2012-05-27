@@ -18,4 +18,4 @@ watch-css:
 	$(STYLUS) -w stylus/all.styl
 
 clean:
-	rm $(PUB_JS_DIR)/*.js
+	rm -f $(PUB_JS_DIR)/*.js $(PUB_CSS_DIR)/*.css
