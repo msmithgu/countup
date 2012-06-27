@@ -1,4 +1,6 @@
 countup
 =======
 
-A simple stopwatch for now.
+A simple stopwatch with logging and a running average.
+
+Hosted at http://countup.metacode.us
