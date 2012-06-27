@@ -42,14 +42,18 @@ $ () ->
   l = () ->
     c = timer.counter
     if c > 0
-      c_logs.prepend $("<li data=\"#{c}\">#{timer.display()}</li>")
-      sum = 0
-      logs = c_logs.children()
-      if logs.length > 0
-        for n in logs
-          sum += ($(n).attr('data') * 1)
-        avg = sum / logs.length
-        c_avg.html timer.display avg
+      entry = $("<li data=\"#{c}\">#{timer.display()}</li>")
+      nixer = $("<a class=\"entry-nixer\" href=\"#nix\">x</a>").appendTo(entry)
+      c_logs.prepend entry
+    set_average()
+  set_average = () ->
+    sum = 0
+    logs = c_logs.children()
+    if logs.length > 0
+      for n in logs
+        sum += ($(n).attr('data') * 1)
+      avg = sum / logs.length
+      c_avg.html timer.display avg
   c_update = () ->
     t timer.display()
 
@@ -71,6 +75,12 @@ $ () ->
     c_logs.html ""
   c_avg = $('<div id="countup-average">').appendTo c
   c_logs = $('<ul id="countup-logs">').appendTo c
+  c_logs.click (e) ->
+    e.preventDefault()
+    clicked_thing = $(e.target)
+    if clicked_thing.hasClass "entry-nixer"
+      clicked_thing.parent().remove()
+      l()
 
   timer = new Timer
   c_update()
